@@ -34,4 +34,13 @@ describe("Calculator", () => {
       it('should support custom delimiter', () => {
         expect(calculator.add('//;\n1;2')).toBe(3);
       });
+
+      it('should throw exception for negative numbers', () => {
+        expect(() => calculator.add('-1,2')).toThrow('negative numbers not allowed -1');
+      });
+
+      it('should show all negative numbers in exception message', () => {
+        expect(() => calculator.add('-1,2,-3,4,-5')).toThrow('negative numbers not allowed -1,-3,-5');
+      });
+  
 });

@@ -25,6 +25,12 @@ export class Calculator {
             .split(',')
             .map(num => parseInt(num.trim(), 10))
 
+        // Check for negative numbers
+        const negativeNumbers = numberArray.filter(num => num < 0);
+        if (negativeNumbers.length > 0) {
+            throw new Error(`negative numbers not allowed ${negativeNumbers.join(',')}`);
+        }
+
         // Sum all numbers
         return numberArray.reduce((sum, num) => sum + num, 0);
     }
