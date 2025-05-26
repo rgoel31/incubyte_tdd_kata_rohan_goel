@@ -4,16 +4,29 @@ export class Calculator {
             return 0;
         }
 
-        let delimiters = [',', '\n'];
+        let delimiters = [','];
         let numbersToProcess = numbers;
 
         // Check for custom delimiter
         if (numbers.startsWith('//')) {
             const delimiterEnd = numbers.indexOf('\n');
             const delimiterSection = numbers.substring(2, delimiterEnd);
-            delimiters.push(delimiterSection);
+            // Handle multiple delimiters
+            if (delimiterSection.includes('[')) {
+                delimiters = delimiterSection.match(/\[(.*?)\]/g)?.map(d => d.slice(1, -1)) || [];
+            } else {
+                delimiters = [delimiterSection];
+            }
             numbersToProcess = numbers.substring(delimiterEnd + 1);
         }
+
+        // Always include '\n' as a delimiter
+        if (!delimiters.includes('\n')) {
+            delimiters.push('\n');
+        }
+
+        // Sort delimiters by length in descending order
+        delimiters.sort((a, b) => b.length - a.length);
 
         // Replace each delimiter with a comma and any other delimiter.
         delimiters.forEach(delimiter => {
