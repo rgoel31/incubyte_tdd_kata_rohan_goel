@@ -43,4 +43,11 @@ describe("Calculator", () => {
         expect(() => calculator.add('-1,2,-3,4,-5')).toThrow('negative numbers not allowed -1,-3,-5');
       });
   
+      it('should ignore values greater than 1000', () => {
+        expect(calculator.add('1,2000')).toBe(1);
+      });
+
+      it('should ignore values greater than 1000 when passed custom delimiter', () => {
+        expect(calculator.add('//;\n1;2000')).toBe(1);
+      });
 });

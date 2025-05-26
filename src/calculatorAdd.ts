@@ -24,6 +24,7 @@ export class Calculator {
         const numberArray = numbersToProcess
             .split(',')
             .map(num => parseInt(num.trim(), 10))
+            .filter(num => !isNaN(num) && num <= 1000);
 
         // Check for negative numbers
         const negativeNumbers = numberArray.filter(num => num < 0);
