@@ -30,4 +30,8 @@ describe("Calculator", () => {
       it('should handle nmultiple new line characters between numbers', () => {
         expect(calculator.add('1\n2\n3')).toBe(6);
       });
+
+      it('should support custom delimiter', () => {
+        expect(calculator.add('//;\n1;2')).toBe(3);
+      });
 });
