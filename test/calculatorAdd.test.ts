@@ -8,7 +8,7 @@ describe("Calculator", () => {
     });
 
     it("should return 0 for empty string", () => {
-        calculator.add('').toBe(0);
+        expect(calculator.add('')).toBe(0);
     });
 
     it("should return the number for single number input", () => {
@@ -63,7 +63,6 @@ describe("Calculator", () => {
         const input =
             '//[a][b][*][abc][xyz][!!][qwerty][longdelimiter][@#][delim]\n' +
             '1a2b3abc4*5xyz6!!7qwerty8longdelimiter9@#10delim11a12!!13qwerty14longdelimiter15';
-
         expect(
             calculator.add(input)
         ).toBe(120);
@@ -71,8 +70,10 @@ describe("Calculator", () => {
 
     it('should handle overlapping delimiters correctly', () => {
         const input = '//[a][abc][ab]\n1a2abc3ab4';
-        // Without sorting: 1,2,bc3b4 (incorrect)
-        // With sorting: 1,2,3,4 (correct)
         expect(calculator.add(input)).toBe(10);
     });
+    //'12,e,343,erer,23'
+    it('should handle string values and return the sum', () => {
+        expect(() => calculator.add('12,e,343,erer,23')).toThrow("Strings are not allowed e,erer");
+    })
 });

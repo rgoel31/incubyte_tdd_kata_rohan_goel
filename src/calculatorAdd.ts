@@ -33,11 +33,18 @@ export class Calculator {
             numbersToProcess = numbersToProcess.split(delimiter).join(',');
         });
 
+        // filtering the unwanted strings in the given input.
+        const strings: string[] = numbersToProcess.split(',').filter((str: string) => Number.isNaN(parseInt(str)));
+        if (strings.length) {
+            console.log(strings);
+            throw new Error(`Strings are not allowed ${strings.join(',')}`);
+        }
+
         // Split by comma and convert to numbers
         const numberArray = numbersToProcess
             .split(',')
             .map(num => parseInt(num.trim(), 10))
-            .filter(num => !isNaN(num) && num <= 1000);
+            .filter(num => !isNaN(num) && num < 1000)
 
         // Check for negative numbers
         const negativeNumbers = numberArray.filter(num => num < 0);
