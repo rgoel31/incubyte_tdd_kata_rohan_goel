@@ -9,7 +9,7 @@ export class Calculator {
             return 0;
         }
 
-        let {delimiters, numbersToProcess} = getDelimiters(numbers);
+        let {delimiters, numbersToProcess} = getDelimitersAndNumbers(numbers);
 
         // Sort delimiters by length in descending order
         delimiters.sort((a, b) => b.length - a.length);
@@ -20,15 +20,20 @@ export class Calculator {
         });
 
         const strings = getStrings(numbersToProcess);
-        if(strings.length > 0){
+        if(strings.length){
             throw new Error(`Strings are not allowed ${strings.join(',')}`);
         }
         
         const numberArray = getNumbers(numbersToProcess);
 
         const negativeNumbers = getNegativeNumbers(numberArray);
-        if (negativeNumbers.length > 0) {
+        if (negativeNumbers.length) {
             throw new Error(`negative numbers not allowed ${negativeNumbers.join(',')}`);
+        }
+
+        // Multiply if delimiters has *
+        if(delimiters.indexOf('*') !== -1){
+            return numberArray.reduce((num1, num) => num1*num, 1);
         }
 
         // Sum all numbers
@@ -36,9 +41,9 @@ export class Calculator {
     }
 }
 
-const getDelimiters = (numbers:string):Values => {
+const getDelimitersAndNumbers = (numbers:string):Values => {
     let delimiters:string[] = []
-    let numbersToProcess = '';
+    let numbersToProcess = numbers;
     // Check for custom delimiter
         if (numbers.startsWith('//')) {
             const delimiterEnd = numbers.indexOf('\n');
@@ -60,8 +65,8 @@ const getDelimiters = (numbers:string):Values => {
 }
 
 // filtering the unwanted strings in the given input.
-const getStrings = (numbers:string):string[] =>  {    
-    return numbers.split(',').filter((str: string) => Number.isNaN(parseInt(str)));    
+const getStrings = (numbers:string):string[] =>  {   
+    return numbers.split(',').filter((str: string) => isNaN(parseInt(str)));
 } 
 
 // Split by comma and convert to numbers

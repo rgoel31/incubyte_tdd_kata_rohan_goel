@@ -65,7 +65,7 @@ describe("Calculator", () => {
             '1a2b3abc4*5xyz6!!7qwerty8longdelimiter9@#10delim11a12!!13qwerty14longdelimiter15';
         expect(
             calculator.add(input)
-        ).toBe(120);
+        ).toBe(1307674368000);
     });
 
     it('should handle overlapping delimiters correctly', () => {
@@ -76,4 +76,13 @@ describe("Calculator", () => {
     it('should handle string values and return the sum', () => {
         expect(() => calculator.add('12,e,343,erer,23')).toThrow("Strings are not allowed e,erer");
     })
+
+    // if custom delimiter is *, then it should muliptly instead of addition
+    it('should mulitply numbers', () => {
+        expect(calculator.add('//[*]\n2*3')).toBe(6);
+    });
+
+    it('should throw error for negative number', () => {
+        expect(()=>calculator.add('//[*]\n-1*2')).toThrow('negative numbers not allowed -1');
+    });
 });
